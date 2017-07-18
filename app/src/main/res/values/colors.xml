@@ -5,7 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorAvailable">#32D632</color>
     <color name="colorNotAvailable">#D63232</color>
-
+    <color name="coloWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
 
 
 </resources>

@@ -94,7 +94,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             holder.productStatus.setText("In Stock");
             holder.productStatus.setTextColor(context.getResources().getColor(R.color.colorAvailable));
         } else {
-            holder.productStatus.setText("Not In Stock");
+            holder.productStatus.setText("Out of Stock");
             holder.productStatus.setTextColor(context.getResources().getColor(R.color.colorNotAvailable));
         }
     }
