@@ -2,8 +2,7 @@ package com.hrushie.takehomeassignment.controllers.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Parcelable;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,13 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-
 import com.hrushie.takehomeassignment.R;
 import com.hrushie.takehomeassignment.controllers.activities.ProductActivity;
 import com.hrushie.takehomeassignment.models.Product;
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -43,7 +40,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         public ImageView productImage;
         public RatingBar productReview;
 
-
         public ViewHolder(View itemView) {
             super(itemView);
             productName = itemView.findViewById(R.id.tv_name);
@@ -52,19 +48,24 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             productReview = itemView.findViewById(R.id.MyRating);
             productReviewCount = itemView.findViewById(R.id.tv_reviewCount);
             productStatus = itemView.findViewById(R.id.tv_inStock);
-
-
             itemView.setOnClickListener(this);
-
         }
-
         @Override
         public void onClick(View view) {
 
             int position = getAdapterPosition();
-            Intent myIntent = new Intent(context, ProductActivity.class);
-            context.startActivity(myIntent);
+            Product product = products.get(position);
 
+            Intent myIntent = new Intent(context, ProductActivity.class);
+            myIntent.putExtra("name", product.getProductiName());
+            myIntent.putExtra("id", product.getProductiId());
+            myIntent.putExtra("image", product.getProductImage());
+            myIntent.putExtra("review", product.getReviewRating());
+            myIntent.putExtra("reviewcount", product.getReviewCount());
+            myIntent.putExtra("longdesc", product.getLongDescription());
+            myIntent.putExtra("pagenumber",product.getPagenumber());
+
+            context.startActivity(myIntent);
 
         }
     }
@@ -78,12 +79,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                         false);
         return new ViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
         Product product = products.get(position);
-
         holder.productName.setText(product.getProductiName());
         holder.productPrice.setText(String.valueOf(product.getPrice()));
         holder.productReviewCount.setText("(" + String.valueOf(product.getReviewCount()) + ")");
@@ -91,18 +90,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         Picasso.with(context)
                 .load(product.getProductImage())
                 .into(holder.productImage);
-
-
+        if (product.isInStock() == true){
+            holder.productStatus.setText("In Stock");
+            holder.productStatus.setTextColor(context.getResources().getColor(R.color.colorAvailable));
+        } else {
+            holder.productStatus.setText("Not In Stock");
+            holder.productStatus.setTextColor(context.getResources().getColor(R.color.colorNotAvailable));
+        }
     }
-
     @Override
     public int getItemCount() {
         if (products == null) {
             return 0;
         }
         return products.size();
-
     }
-
-
 }

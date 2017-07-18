@@ -1,7 +1,5 @@
 package com.hrushie.takehomeassignment.models;
 
-import java.io.Serializable;
-
 /**
  * Created by hrushie on 7/15/2017.
  */
@@ -17,6 +15,15 @@ public class Product {
     private int reviewRating;
     private String price;
     private boolean inStock;
+    private int pagenumber;
+
+    public int getPagenumber() {
+        return pagenumber;
+    }
+
+    public void setPagenumber(int pagenumber) {
+        this.pagenumber = pagenumber;
+    }
 
     public String getProductiId() {
         return productiId;

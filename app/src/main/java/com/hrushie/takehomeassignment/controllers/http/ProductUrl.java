@@ -10,31 +10,31 @@ public class ProductUrl {
 
     private final String url = "https://walmartlabs-test.appspot.com/_ah/api/walmart/v1/walmartproducts";
     private final String API_KEY = "c86bbded-3988-463f-94a5-6443ed7cec34";
-    private final int pageSize = 20;
+    private final int pageSize = 30;
 
 
     private ProductUrl() {
 
     }
 
-    public static ProductUrl getInstance(){
+    public static ProductUrl getInstance() {
 
-        if (uniqInstance == null){
+        if (uniqInstance == null) {
 
-            synchronized (ProductUrl.class){
+            synchronized (ProductUrl.class) {
 
-                if (uniqInstance == null){
+                if (uniqInstance == null) {
 
                     uniqInstance = new ProductUrl();
                 }
             }
         }
-    return uniqInstance;
+        return uniqInstance;
     }
 
-    public String getProductQuery(int pageNumber){
+    public String getProductQuery(int pageNumber) {
 
-         return url + "/" + API_KEY + "/" + pageNumber + "/" + pageSize;
+        return url + "/" + API_KEY + "/" + pageNumber + "/" + pageSize;
     }
 
 

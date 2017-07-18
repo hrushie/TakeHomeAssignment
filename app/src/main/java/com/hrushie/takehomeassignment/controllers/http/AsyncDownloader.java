@@ -18,16 +18,29 @@ import java.io.IOException;
 
 public class AsyncDownloader extends AsyncTask<String, Integer, String> {
 
+    private ProgressDialog progressDialog;
     private Context context;
     private Class classToLoad;
     private ProgressDialog dialog;
     private MainActivity mainActivity;
 
+    public AsyncDownloader(Context ctx) {
+        context = ctx;
+    }
+    private void showProgressDialog(String message)
+    {
+        progressDialog = new ProgressDialog(context);
 
+        progressDialog.setMessage(message); // message
+
+        progressDialog.setCancelable(false);
+
+        progressDialog.show();
+    }
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
+        showProgressDialog("Loading ....");
     }
 
     @Override
@@ -60,6 +73,7 @@ public class AsyncDownloader extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String jsonData) {
         super.onPostExecute(jsonData);
+        progressDialog.dismiss();
 
     }
 }

@@ -1,7 +1,7 @@
 package com.hrushie.takehomeassignment.controllers.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private List<Product>  products = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
     private RecyclerView recyclerView;
     private int pageNumber = 0;
     private String rawJson;
@@ -42,40 +42,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.productRecyclerView);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-//        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
-//            @Override
-//            public void onLoadMore(int current_page) {
-//                int lastFirstVisiblePosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
-//                ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPosition(lastFirstVisiblePosition);
-//                updateList(pageNumber);
-//                Log.i("Scrollmore", "Hi");
-//
-//            }
-//        });
-
-//        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener()
-//        {
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
-//            {
-//                if(dy > 0) //check for scroll down
-//                {
-//                    visibleItemCount = linearLayoutManager.getChildCount();
-//                    totalItemCount = linearLayoutManager.getItemCount();
-//                    pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
-//
-//                    if (loading)
-//                    {
-//                        if ( (visibleItemCount + pastVisiblesItems) >= totalItemCount)
-//                        {
-//                            loading = false;
-//                            Log.v("...", "Last Item Wow !");
-//                            loadMore(pageNumber+15);
-//                        }
-//                    }
-//                }
-//            }
-//        });
+        updateList(pageNumber);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -97,13 +64,12 @@ public class MainActivity extends AppCompatActivity {
                         <= (firstVisibleItem + visibleThreshold)) {
                     // End has been reached
 
-                    Log.i("Yaeye!", "end called");
+
                     loadMore(pageNumber);
                     loading = true;
                 }
             }
         });
-        updateList(pageNumber);
     }
 
     public void updateList(int page) {
@@ -111,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         String getActorHttpMethod = url.getProductQuery(page);
 
-        AsyncDownloader downloader = new AsyncDownloader();
+        AsyncDownloader downloader = new AsyncDownloader(this);
         try {
             rawJson = downloader.execute(getActorHttpMethod).get();
         } catch (InterruptedException e) {
@@ -139,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
                 tempProduct.setReviewCount(jsonActor.getInt("reviewCount"));
                 tempProduct.setInStock(jsonActor.getBoolean("inStock"));
                 tempProduct.setProductImage(jsonActor.getString("productImage"));
+                tempProduct.setPagenumber(page);
+
+
                 products.add(tempProduct);
 
             }
@@ -149,17 +118,17 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new ProductAdapter(MainActivity.this, products);
         recyclerView.setAdapter(adapter);
-
+        pageNumber = pageNumber+30;
 
     }
 
     private void loadMore(int page) {
-        page = products.size() + 20;
+
         ProductUrl url = ProductUrl.getInstance();
 
         String getActorHttpMethod = url.getProductQuery(page);
 
-        AsyncDownloader downloader = new AsyncDownloader();
+        AsyncDownloader downloader = new AsyncDownloader(this);
         try {
             rawJson = downloader.execute(getActorHttpMethod).get();
         } catch (InterruptedException e) {
@@ -194,6 +163,9 @@ public class MainActivity extends AppCompatActivity {
                 tempProduct.setReviewCount(jsonActor.getInt("reviewCount"));
                 tempProduct.setInStock(jsonActor.getBoolean("inStock"));
                 tempProduct.setProductImage(jsonActor.getString("productImage"));
+                tempProduct.setPagenumber(page);
+
+
 
                 products.add(tempProduct);
 
@@ -203,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         adapter.notifyDataSetChanged();
+        pageNumber = pageNumber+30;
+
     }
 
     private void showNotFoundNotification() {
