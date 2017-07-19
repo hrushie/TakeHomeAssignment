@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">TakeHomeAssignment</string>
     <string name="title_activity_product">ProductActivity</string>
+    <string name="in_stock">In Stock</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="Walmart_products">Walmart Products</string>
 </resources>

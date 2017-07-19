@@ -7,6 +7,7 @@
     <color name="colorNotAvailable">#D63232</color>
     <color name="coloWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
+    <color name="screenColor">#BEECE3</color>
 
 
 </resources>
