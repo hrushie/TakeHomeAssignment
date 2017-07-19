@@ -13,16 +13,23 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".controllers.activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".controllers.activities.ProductActivity"
             android:label="@string/title_activity_product"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-    </application>
+
+    <activity
+        android:name=".controllers.activities.SplashScreen"
+        android:theme="@style/AppTheme.NoActionBar">
+
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+    </activity>
+</application>
 
 </manifest>

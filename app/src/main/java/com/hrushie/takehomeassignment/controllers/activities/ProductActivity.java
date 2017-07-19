@@ -20,14 +20,15 @@ import org.json.JSONObject;
 import java.util.concurrent.ExecutionException;
 
 
+
 public class ProductActivity extends AppCompatActivity {
     private String rawJson;
-    String productid;
-    TextView tvname, tvprice,tvcountreview,instock;
-    RatingBar rbreviews;
-    WebView wvdescshort, wvdesclong;
-    ImageView ivproduct;
-    int pageNumber;
+    private String productid;
+    private TextView tvname, tvprice,tvcountreview,instock;
+    private RatingBar rbreviews;
+    private WebView wvdescshort, wvdesclong;
+    private ImageView ivproduct;
+    private int pageNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

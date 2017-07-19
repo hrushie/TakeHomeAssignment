@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -15,20 +17,24 @@ import com.hrushie.takehomeassignment.controllers.activities.ProductActivity;
 import com.hrushie.takehomeassignment.models.Product;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by hrushie on 7/15/2017.
  */
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> implements Filterable {
 
-    private static List<Product> products;
+    private static ArrayList<Product> products;
+    private ArrayList<Product> mFilteredList;
+
     private Context context;
 
-    public ProductAdapter(Context ctx, List<Product> productList) {
+    public ProductAdapter(Context ctx, ArrayList<Product> productList) {
         context = ctx;
         products = productList;
+        mFilteredList = productList;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -104,5 +110,47 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             return 0;
         }
         return products.size();
+    }
+
+@Override
+    public Filter getFilter() {
+
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+
+                String charString = charSequence.toString();
+
+                if (charString.isEmpty()) {
+
+                    mFilteredList = products;
+                } else {
+
+                    ArrayList<Product> filteredList = new ArrayList<>();
+
+                    for (Product androidVersion : products) {
+
+                        String name = androidVersion.getProductiName();
+                        String desc = androidVersion.getShortDescription();
+                        if (name.toLowerCase().contains(charString) || desc.toLowerCase().contains(charString)) {
+
+                            filteredList.add(androidVersion);
+                        }
+                    }
+
+                    mFilteredList = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mFilteredList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mFilteredList = (ArrayList<Product>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

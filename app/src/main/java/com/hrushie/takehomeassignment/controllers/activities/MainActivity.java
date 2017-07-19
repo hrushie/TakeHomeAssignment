@@ -23,9 +23,8 @@ import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
 
-    private List<Product> products = new ArrayList<>();
+    private ArrayList<Product> products = new ArrayList<>();
     private RecyclerView recyclerView;
     private int pageNumber = 0;
     private String rawJson;
