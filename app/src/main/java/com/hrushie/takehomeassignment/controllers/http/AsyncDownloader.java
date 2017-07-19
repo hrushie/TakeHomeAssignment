@@ -14,6 +14,9 @@ import java.io.IOException;
 
 /**
  * Created by hrushie on 7/15/2017.
+ * <p>
+ * Public class to be re used for downloading JSON response using library
+ * OkHttp.
  */
 
 public class AsyncDownloader extends AsyncTask<String, Integer, String> {
@@ -27,21 +30,27 @@ public class AsyncDownloader extends AsyncTask<String, Integer, String> {
     public AsyncDownloader(Context ctx) {
         context = ctx;
     }
-    private void showProgressDialog(String message)
-    {
+
+    private void showProgressDialog(String message) {
         progressDialog = new ProgressDialog(context);
-
         progressDialog.setMessage(message); // message
-
         progressDialog.setCancelable(false);
-
         progressDialog.show();
     }
+
+    /**
+     * onPreExecute runs on the UI thread before doInBackground.
+     */
+
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
         showProgressDialog("Loading ....");
     }
+
+    /**
+     * doInBackground() runs in the background on a worker thread. This is where code that can block the GUI should go.
+     */
 
     @Override
     protected String doInBackground(String... params) {
@@ -69,6 +78,11 @@ public class AsyncDownloader extends AsyncTask<String, Integer, String> {
         }
         return jsonData;
     }
+
+    /**
+     * onPostExecute can run on the  main (GUI) thread and receives
+     * the result of doInBackground.
+     */
 
     @Override
     protected void onPostExecute(String jsonData) {

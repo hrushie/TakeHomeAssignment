@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.hrushie.takehomeassignment.R;
@@ -18,14 +17,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
 
-    private List<Product> products = new ArrayList<>();
+    private ArrayList<Product> products = new ArrayList<>();
     private RecyclerView recyclerView;
     private int pageNumber = 0;
     private String rawJson;
@@ -118,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter = new ProductAdapter(MainActivity.this, products);
         recyclerView.setAdapter(adapter);
-        pageNumber = pageNumber+30;
+        pageNumber = pageNumber + 30;
 
     }
 
@@ -166,7 +163,6 @@ public class MainActivity extends AppCompatActivity {
                 tempProduct.setPagenumber(page);
 
 
-
                 products.add(tempProduct);
 
             }
@@ -175,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         adapter.notifyDataSetChanged();
-        pageNumber = pageNumber+30;
+        pageNumber = pageNumber + 30;
 
     }
 
