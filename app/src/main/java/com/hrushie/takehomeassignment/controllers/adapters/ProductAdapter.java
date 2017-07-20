@@ -30,7 +30,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     private static ArrayList<Product> products;
     private ArrayList<Product> mFilteredList;
-
     private Context context;
 
     public ProductAdapter(Context ctx, ArrayList<Product> productList) {
@@ -64,7 +63,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
             int position = getAdapterPosition();
             Product product = products.get(position);
-
             Intent myIntent = new Intent(context, ProductActivity.class);
             myIntent.putExtra("name", product.getProductiName());
             myIntent.putExtra("id", product.getProductiId());
@@ -73,9 +71,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             myIntent.putExtra("reviewcount", product.getReviewCount());
             myIntent.putExtra("longdesc", product.getLongDescription());
             myIntent.putExtra("pagenumber", product.getPagenumber());
-
             context.startActivity(myIntent);
-
         }
     }
 
@@ -125,14 +121,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             protected FilterResults performFiltering(CharSequence charSequence) {
 
                 String charString = charSequence.toString();
-
                 if (charString.isEmpty()) {
-
                     products = mFilteredList;
                 } else {
 
                     ArrayList<Product> filteredList = new ArrayList<>();
-
                     for (Product androidVersion : products) {
 
                         String name = androidVersion.getProductiName();
@@ -144,7 +137,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
                     products = filteredList;
                 }
-
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = products;
                 return filterResults;

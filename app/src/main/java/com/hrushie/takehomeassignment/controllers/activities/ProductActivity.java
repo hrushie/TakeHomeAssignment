@@ -20,7 +20,7 @@ import org.json.JSONObject;
 import java.util.concurrent.ExecutionException;
 
 /**
- *  detail activity which comes from RecyclerView to
+ * detail activity which comes from RecyclerView to
  * display as the details about the products from the lists.
  */
 public class ProductActivity extends AppCompatActivity {
@@ -46,19 +46,18 @@ public class ProductActivity extends AppCompatActivity {
         rbreviews = (RatingBar) findViewById(R.id.rbreviews);
         int displayWidth = getWindowManager().getDefaultDisplay().getHeight();
         ivproduct.getLayoutParams().height = displayWidth / 2;
-
         Intent intent = getIntent();
         productid = intent.getExtras().getString("id");
         pageNumber = intent.getExtras().getInt("pagenumber");
         searchList(pageNumber);
-
     }
 
+    /**
+     * Method for Getting the details about the product from JSON
+     */
     public void searchList(int page) {
         ProductUrl url = ProductUrl.getInstance();
-
         String getActorHttpMethod = url.getProductQuery(page);
-
         AsyncDownloader downloader = new AsyncDownloader(this);
         try {
             rawJson = downloader.execute(getActorHttpMethod).get();
@@ -69,13 +68,10 @@ public class ProductActivity extends AppCompatActivity {
         }
 
         JSONObject results = null;
-
         try {
             results = new JSONObject(rawJson);
             JSONArray data = results.getJSONArray("products");
-
             int dataSize = data.length();
-
             for (int i = 0; i < dataSize; i++) {
                 JSONObject jsonActor = data.getJSONObject(i);
                 String id = jsonActor.getString("productId");
@@ -93,20 +89,15 @@ public class ProductActivity extends AppCompatActivity {
                         instock.setText("Out of Stock");
                         instock.setTextColor(getResources().getColor(R.color.colorNotAvailable));
                     }
-
                     Picasso.with(this)
                             .load(jsonActor.getString("productImage"))
                             .resize(600, 200) // resizes the image to these dimensions (in pixel)
                             .centerInside()
                             .into(ivproduct);
-
                 }
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
     }
 }

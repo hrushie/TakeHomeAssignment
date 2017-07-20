@@ -8,14 +8,11 @@ package com.hrushie.takehomeassignment.controllers.http;
 public class ProductUrl {
 
     private volatile static ProductUrl uniqInstance;
-
     private final String url = "https://walmartlabs-test.appspot.com/_ah/api/walmart/v1/walmartproducts";
     private final String API_KEY = "c86bbded-3988-463f-94a5-6443ed7cec34";
     private final int pageSize = 15;
 
-
     private ProductUrl() {
-
     }
 
     public static ProductUrl getInstance() {
@@ -37,6 +34,4 @@ public class ProductUrl {
 
         return url + "/" + API_KEY + "/" + pageNumber + "/" + pageSize;
     }
-
-
 }

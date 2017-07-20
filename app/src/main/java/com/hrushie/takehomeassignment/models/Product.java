@@ -2,6 +2,7 @@ package com.hrushie.takehomeassignment.models;
 
 /**
  * Created by hrushie on 7/15/2017.
+ * Model Class for the Products
  */
 
 public class Product {

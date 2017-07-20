@@ -3,7 +3,7 @@ package com.hrushie.takehomeassignment.controllers.http;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.hrushie.takehomeassignment.MainActivity;
+import com.hrushie.takehomeassignment.controllers.activities.MainActivity;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -31,7 +31,6 @@ public class AsyncDownloader extends AsyncTask<String, Integer, String> {
     }
 
     private void showProgressDialog(String message) {
-
     }
 
     /**
@@ -51,13 +50,11 @@ public class AsyncDownloader extends AsyncTask<String, Integer, String> {
     @Override
     protected String doInBackground(String... params) {
         String url = params[0];
-
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
                 .build();
         Call call = client.newCall(request);
-
         Response response = null;
         String jsonData = null;
 
@@ -83,6 +80,5 @@ public class AsyncDownloader extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPostExecute(String jsonData) {
         super.onPostExecute(jsonData);
-
     }
 }

@@ -1,4 +1,4 @@
-package com.hrushie.takehomeassignment;
+package com.hrushie.takehomeassignment.controllers.activities;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.hrushie.takehomeassignment.R;
 import com.hrushie.takehomeassignment.controllers.adapters.ProductAdapter;
 import com.hrushie.takehomeassignment.controllers.http.AsyncDownloader;
 import com.hrushie.takehomeassignment.controllers.http.ProductUrl;
@@ -29,7 +30,6 @@ import java.util.concurrent.ExecutionException;
  * Displays a list of Walmart Products accessed with Json Data
  */
 public class MainActivity extends AppCompatActivity {
-
 
     private ArrayList<Product> products = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -50,23 +50,21 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(R.string.Walmart_products);
-
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         updateList(pageNumber);
-
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
-
-
+            /**
+             * Method for Loading more products after view reaches to last child of the list
+             *
+             * */
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
                 visibleItemCount = recyclerView.getChildCount();
                 totalItemCount = linearLayoutManager.getItemCount();
                 firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
-
                 if (loading) {
                     if (totalItemCount > previousTotal) {
                         loading = false;
@@ -76,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
                 if (!loading && (totalItemCount - visibleItemCount)
                         <= (firstVisibleItem + visibleThreshold)) {
                     // End has been reached
-
-
                     loadMore(pageNumber);
                     loading = true;
                 }
@@ -85,11 +81,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method for Populate the RecyclerView with the help of adapter and Arraylist
+     */
     public void updateList(int page) {
         ProductUrl url = ProductUrl.getInstance();
-
         String getActorHttpMethod = url.getProductQuery(page);
-
         AsyncDownloader downloader = new AsyncDownloader(this);
         try {
             rawJson = downloader.execute(getActorHttpMethod).get();
@@ -109,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
 
             for (int i = 0; i < dataSize; i++) {
                 JSONObject jsonActor = data.getJSONObject(i);
-
                 Product tempProduct = new Product();
                 tempProduct.setProductiId(jsonActor.getString("productId"));
                 tempProduct.setProductiName(jsonActor.getString("productName"));
@@ -120,9 +116,7 @@ public class MainActivity extends AppCompatActivity {
                 tempProduct.setProductImage(jsonActor.getString("productImage"));
                 tempProduct.setPagenumber(page);
 
-
                 products.add(tempProduct);
-
             }
 
         } catch (JSONException e) {
@@ -132,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ProductAdapter(MainActivity.this, products);
         recyclerView.setAdapter(adapter);
         pageNumber = pageNumber + 15;
-
     }
 
     private void loadMore(int page) {
@@ -164,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
                 super.onBackPressed();
             }
 
-
             for (int i = 0; i < dataSize; i++) {
                 JSONObject jsonActor = data.getJSONObject(i);
 
@@ -178,9 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 tempProduct.setProductImage(jsonActor.getString("productImage"));
                 tempProduct.setPagenumber(page);
 
-
                 products.add(tempProduct);
-
             }
 
         } catch (JSONException e) {
@@ -188,8 +178,6 @@ public class MainActivity extends AppCompatActivity {
         }
         adapter.notifyDataSetChanged();
         pageNumber = pageNumber + 15;
-
-
     }
 
     private void showPD() {
@@ -202,15 +190,10 @@ public class MainActivity extends AppCompatActivity {
 
             new Handler().postDelayed(new Runnable() {
 
-
                 @Override
                 public void run() {
-                    // This method will be executed once the timer is over
-                    // Start your app main activity
+
                     hidePD();
-
-                    // close this activity
-
                 }
             }, 1000);
         }
@@ -222,7 +205,6 @@ public class MainActivity extends AppCompatActivity {
             progressDialog = null;
         }
     }
-
 
     private void showNotFoundNotification() {
         Toast.makeText(this,
@@ -240,7 +222,6 @@ public class MainActivity extends AppCompatActivity {
         search(searchView);
         return true;
     }
-
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
