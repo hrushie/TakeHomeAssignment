@@ -5,11 +5,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
+import com.hrushie.takehomeassignment.MainActivity;
 import com.hrushie.takehomeassignment.R;
 
 public class SplashScreen extends AppCompatActivity {
 
-    private static int SPLASH_TIME_OUT = 3000;
+    private static int SPLASH_TIME_OUT = 2000;
+
+    /**Splash Activity is used to show user some kind of progress before the app loads completely
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

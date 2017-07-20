@@ -2,7 +2,6 @@ package com.hrushie.takehomeassignment.controllers.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,17 +11,20 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
 import com.hrushie.takehomeassignment.R;
 import com.hrushie.takehomeassignment.controllers.activities.ProductActivity;
 import com.hrushie.takehomeassignment.models.Product;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by hrushie on 7/15/2017.
+ * Create the basic adapter extending from RecyclerView.Adapter
+ * note that we specify the custom ViewHolder which gives us access to our Lists
  */
+
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> implements Filterable {
 
@@ -56,6 +58,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             productStatus = itemView.findViewById(R.id.tv_inStock);
             itemView.setOnClickListener(this);
         }
+
         @Override
         public void onClick(View view) {
 
@@ -69,7 +72,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             myIntent.putExtra("review", product.getReviewRating());
             myIntent.putExtra("reviewcount", product.getReviewCount());
             myIntent.putExtra("longdesc", product.getLongDescription());
-            myIntent.putExtra("pagenumber",product.getPagenumber());
+            myIntent.putExtra("pagenumber", product.getPagenumber());
 
             context.startActivity(myIntent);
 
@@ -85,6 +88,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                         false);
         return new ViewHolder(view);
     }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
@@ -96,7 +100,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         Picasso.with(context)
                 .load(product.getProductImage())
                 .into(holder.productImage);
-        if (product.isInStock() == true){
+        if (product.isInStock() == true) {
             holder.productStatus.setText("In Stock");
             holder.productStatus.setTextColor(context.getResources().getColor(R.color.colorAvailable));
         } else {
@@ -104,6 +108,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             holder.productStatus.setTextColor(context.getResources().getColor(R.color.colorNotAvailable));
         }
     }
+
     @Override
     public int getItemCount() {
         if (products == null) {
@@ -112,7 +117,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         return products.size();
     }
 
-@Override
+    @Override
     public Filter getFilter() {
 
         return new Filter() {
@@ -123,7 +128,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
                 if (charString.isEmpty()) {
 
-                    mFilteredList = products;
+                    products = mFilteredList;
                 } else {
 
                     ArrayList<Product> filteredList = new ArrayList<>();
@@ -131,24 +136,23 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                     for (Product androidVersion : products) {
 
                         String name = androidVersion.getProductiName();
-                        String desc = androidVersion.getShortDescription();
-                        if (name.toLowerCase().contains(charString) || desc.toLowerCase().contains(charString)) {
+                        if (name.toLowerCase().contains(charString)) {
 
                             filteredList.add(androidVersion);
                         }
                     }
 
-                    mFilteredList = filteredList;
+                    products = filteredList;
                 }
 
                 FilterResults filterResults = new FilterResults();
-                filterResults.values = mFilteredList;
+                filterResults.values = products;
                 return filterResults;
             }
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                mFilteredList = (ArrayList<Product>) filterResults.values;
+                products = (ArrayList<Product>) filterResults.values;
                 notifyDataSetChanged();
             }
         };

@@ -19,12 +19,14 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
-
-
+/**
+ *  detail activity which comes from RecyclerView to
+ * display as the details about the products from the lists.
+ */
 public class ProductActivity extends AppCompatActivity {
     private String rawJson;
     private String productid;
-    private TextView tvname, tvprice,tvcountreview,instock;
+    private TextView tvname, tvprice, tvcountreview, instock;
     private RatingBar rbreviews;
     private WebView wvdescshort, wvdesclong;
     private ImageView ivproduct;
@@ -41,9 +43,9 @@ public class ProductActivity extends AppCompatActivity {
         tvprice = (TextView) findViewById(R.id.tvprice);
         tvcountreview = (TextView) findViewById(R.id.tvcountreview);
         instock = (TextView) findViewById(R.id.instock);
-        rbreviews = (RatingBar)findViewById(R.id.rbreviews);
+        rbreviews = (RatingBar) findViewById(R.id.rbreviews);
         int displayWidth = getWindowManager().getDefaultDisplay().getHeight();
-        ivproduct.getLayoutParams().height = displayWidth/2;
+        ivproduct.getLayoutParams().height = displayWidth / 2;
 
         Intent intent = getIntent();
         productid = intent.getExtras().getString("id");
@@ -51,6 +53,7 @@ public class ProductActivity extends AppCompatActivity {
         searchList(pageNumber);
 
     }
+
     public void searchList(int page) {
         ProductUrl url = ProductUrl.getInstance();
 
@@ -79,11 +82,11 @@ public class ProductActivity extends AppCompatActivity {
                 if (id.equals(productid)) {
                     tvname.setText(jsonActor.getString("productName"));
                     tvprice.setText(jsonActor.getString("price"));
-                    tvcountreview.setText("(" +String.valueOf(jsonActor.getString("reviewCount"))+")");
+                    tvcountreview.setText("(" + String.valueOf(jsonActor.getString("reviewCount")) + ")");
                     rbreviews.setRating(jsonActor.getInt("reviewRating"));
                     wvdescshort.loadData(jsonActor.getString("shortDescription"), "text/html", "UTF-8");
                     wvdesclong.loadData(jsonActor.getString("longDescription"), "text/html", "UTF-8");
-                    if (jsonActor.getBoolean("inStock") == true){
+                    if (jsonActor.getBoolean("inStock") == true) {
                         instock.setText("In Stock");
                         instock.setTextColor(getResources().getColor(R.color.colorAvailable));
                     } else {
